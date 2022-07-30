@@ -28,3 +28,18 @@ body {
   transition: opacity 250ms ease-out, transform 300ms ease;
 }
 
+.notification {
+  text-align: center;
+  margin: 20px auto 20px auto;
+  padding: 9px 0 15px 0;
+  border: 1px solid white;
+  width: 20%;
+  &.success {
+    color: lightgreen;
+    border-color: lightgreen;
+  }
+  &.error {
+    color: salmon;
+    border-color: salmon;
+  }
+}

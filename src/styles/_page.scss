@@ -10,6 +10,20 @@
     text-align: center;
   }
 
+  &__slider {
+    width: 50%;
+    margin: 50px auto;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+  }
+
+  &.landing {
+    margin-top: 200px;
+  }
 
 }
 
