@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight } from "@mui/icons-material";
 import { Container, Box, Typography, Button, Slide } from "@mui/material";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
 import { getData } from '../store/art-functions';
+
+import { RootState, AppDispatch } from '../store/store';
 
 import NotificationBox from '../components/NotificationBox';
 
 export default function HomePage() {
+  // const dispatch: () => AppDispatch = useDispatch;
   const dispatch = useDispatch();
-  const artState = useSelector(state => state.art);
+  const artState = useSelector((state: RootState) => state.art);
   const artArray = artState.artList.artArray;
   const notification = artState.notification;
   const [sliderState, setSliderState] = useState({
@@ -17,7 +20,6 @@ export default function HomePage() {
   });
 
   useEffect(() => {
-    console.log('runs');
     if (artState.artList.artArray.length > 0) {
       return;
     } else {
@@ -63,6 +65,7 @@ export default function HomePage() {
       {/* { */}
       {/*   notification && <NotificationBox type={notification.type} title={notification.title} description={notification.description} /> */}
       {/* } */}
+
       {
         artArray.length > 0 &&
         <div className={"page__slider"}>
@@ -73,7 +76,7 @@ export default function HomePage() {
             direction="right"
           >
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-              <img src={imageData.src} width={300} height={300} alt={imageData.alt_text} />
+              <img src={imageData?.src} width={300} height={300} alt={imageData?.alt_text} />
               <Typography variant={"caption"}>{imageData?.credit_line}</Typography>
               <Typography>{imageData?.title}</Typography>
               <Typography>{imageData?.artist_title}</Typography>

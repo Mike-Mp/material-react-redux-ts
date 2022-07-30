@@ -1,17 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type artInitialStateType = {
-  isLoading: boolean,
-  artList: {
-    artArray: Object[] | [],
-    config: string,
-  }
-  notification: {
-    type: string,
-    title: string,
-    description: string,
-  } | null,
-};
+import { artInitialStateType, artListType, notificationType } from '../types/index';
 
 const artInitialState: artInitialStateType = {
   isLoading: false,
@@ -26,18 +15,14 @@ const artSlice = createSlice({
   name: "art",
   initialState: artInitialState,
   reducers: {
-    getData(state, action) {
-      const newArtList = {
-        artArray: action.payload.data,
-        config: action.payload.config.iiif_url,
-      }
-      state.artList = newArtList;
+    getData(state, action: PayloadAction<artListType>) {
+      state.artList = action.payload;
       state.notification = null;
     },
     toggleLoading(state, _) {
       state.isLoading = !state.isLoading;
     },
-    setNotification(state, action) {
+    setNotification(state, action: PayloadAction<notificationType>) {
       state.notification = action.payload;
     }
   }

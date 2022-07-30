@@ -9,14 +9,18 @@ export const getData = () => {
       const response = await fetch(ALL_URL);
 
       const data = await response.json();
-      console.log(data);
       return data;
     }
 
     try {
       const data = await innerFunction();
 
-      dispatch(artAction.getData(data));
+      const newArtList = {
+        artArray: data.data,
+        config: data.config.iiif_url
+      };
+
+      dispatch(artAction.getData(newArtList));
 
       dispatch(artAction.setNotification({
         type: "success",
