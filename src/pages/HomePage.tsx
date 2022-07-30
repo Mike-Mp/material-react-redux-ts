@@ -34,22 +34,21 @@ export default function HomePage() {
     if (forward) {
       setTimeout(() => {
         setSliderState({ elementIn: true, activeIndex: (sliderState.activeIndex + 1) % artArray.length })
-      }, 500)
+      }, 700)
     } else {
       setTimeout(() => {
         setSliderState({ elementIn: true, activeIndex: (sliderState.activeIndex - 1) % artArray.length })
-      }, 500)
+      }, 700)
     }
 
   }
-
 
   let imageData;
 
   if (artArray.length > 0) {
     imageData = {
       src: `${artState.artList.config}/${artArray[sliderState.activeIndex].image_id}/full/843,/0/default.jpg`,
-      alt_text: artArray[sliderState.activeIndex].thumbnail.alt_text,
+      alt_text: artArray[sliderState.activeIndex].thumbnail?.alt_text,
       credit_line: artArray[sliderState.activeIndex].credit_line,
       title: artArray[sliderState.activeIndex].title,
       artist_title: artArray[sliderState.activeIndex].artist_title,
@@ -72,11 +71,11 @@ export default function HomePage() {
           <Button onClick={() => sliderChangeHandler(false)}><ArrowLeft /></Button>
           <Slide
             in={sliderState.elementIn}
-            timeout={500}
+            timeout={700}
             direction="right"
           >
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-              <img src={imageData?.src} width={300} height={300} alt={imageData?.alt_text} />
+              <img src={imageData?.src} width={300} height={300} alt={imageData?.alt_text ? imageData.alt_text : 'Picture'} />
               <Typography variant={"caption"}>{imageData?.credit_line}</Typography>
               <Typography>{imageData?.title}</Typography>
               <Typography>{imageData?.artist_title}</Typography>
