@@ -8,46 +8,47 @@ import {
   Box,
   Button,
 } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext } from "react";
+
+import { AuthContext } from "../store/auth-context";
+import { loginUser } from "../store/auth-functions";
+
+import { buttonStyle, labelStyle, inputStyle } from "../components/UI/commonStyles";
 
 export default function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const emailRef = useRef<HTMLInputElement>(null);
   const passRef = useRef<HTMLInputElement>(null);
 
+  const authCtx = useContext(AuthContext);
+
   const headerLabel = isLogin ? "Login" : "Signup";
   const formTypeLabel = isLogin ? "SignUp?" : "Login?";
 
-  const buttonStyle = {
-    color: "white",
-    "&:hover": {
-      color: "black",
-      backgroundColor: "white",
-    },
-  };
+  
 
-  const labelStyle = {
-    color: "white",
-    "&.Mui-focused": {
-      color: "white",
-    },
-  };
-
-  const inputStyle = {
-    color: "white",
-    "&::after": {
-      borderBottom: "2px solid white",
-    },
-  };
-
-  function formSubmitHandler(e: React.SyntheticEvent) {
+  async function formSubmitHandler(e: React.SyntheticEvent) {
     e.preventDefault();
 
-    if ((emailRef && passRef) && (emailRef.current && passRef.current)) {
+    if (emailRef && passRef && emailRef.current && passRef.current) {
       console.log(emailRef.current.value);
       console.log(passRef.current.value);
     } else {
       return;
+    }
+
+    const body = {
+      email: emailRef.current.value,
+      password: passRef.current.value,
+    };
+
+    try {
+      await loginUser(isLogin, body).then((data) => {
+        console.log(data);
+        authCtx.login(data.idToken);
+      });
+    } catch (err) {
+      console.log(err);
     }
   }
 
